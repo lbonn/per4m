@@ -17,10 +17,10 @@ int pytrace_trace(PyObject *obj, PyFrameObject *frame, int what,
     const char *funcname;
     int lineno;
 
-    PyCodeObject *code = frame->f_code;
+    PyCodeObject *code = PyFrame_GetCode(frame);
     filename = PyUnicode_AsUTF8(code->co_filename);
     funcname = PyUnicode_AsUTF8(code->co_name);
-    lineno = PyCode_Addr2Line(code, frame->f_lasti);
+    lineno = PyCode_Addr2Line(code, PyFrame_GetLasti(frame));
 
     pytrace_function_entry(filename, funcname, lineno, what);
   }
@@ -29,10 +29,10 @@ int pytrace_trace(PyObject *obj, PyFrameObject *frame, int what,
     const char *funcname;
     int lineno;
 
-    PyCodeObject *code = frame->f_code;
+    PyCodeObject *code = PyFrame_GetCode(frame);
     filename = PyUnicode_AsUTF8(code->co_filename);
     funcname = PyUnicode_AsUTF8(code->co_name);
-    lineno = PyCode_Addr2Line(code, frame->f_lasti);
+    lineno = PyCode_Addr2Line(code, PyFrame_GetLasti(frame));
 
     pytrace_function_return(filename, funcname, lineno, what);
   }
